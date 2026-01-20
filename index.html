@@ -3,75 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PC Master Guide</title>
+    <title>PC Master AI - Simulador y Guía Hardware</title>
     
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-TU_ID_DE_CLIENTE" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-TU_ID_AQUI" crossorigin="anonymous"></script>
 
     <style>
-        body { 
-            background-color: #0f0c29; 
-            color: white; 
-            font-family: Arial, sans-serif; 
-            margin: 0; 
-            padding: 0;
-        }
-        nav { 
-            background: #1a1a2e; 
-            padding: 20px; 
-            text-align: center; 
-            border-bottom: 2px solid #00d4ff;
-        }
-        nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
-        .hero { 
-            padding: 60px 20px; 
-            text-align: center; 
-            background: linear-gradient(to bottom, #1a1a2e, #0f0c29);
-        }
-        .content { max-width: 800px; margin: auto; padding: 20px; }
-        .card { 
-            background: #1a1a2e; 
-            padding: 20px; 
-            margin-bottom: 20px; 
-            border-radius: 10px; 
-            border: 1px solid #00d4ff;
-        }
-        h1, h2 { color: #00d4ff; }
-        footer { text-align: center; padding: 40px; font-size: 0.8em; color: #888; }
-    </style>
-</head>
-<body>
+        :root { --neon: #00d4ff; --dark: #0a0a12; --card: #161625; --accent: #ff007a; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--dark); color: white; margin: 0; scroll-behavior: smooth; }
+        
+        nav { background: rgba(10, 10, 18, 0.9); padding: 20px; position: sticky; top: 0; display: flex; justify-content: center; gap: 20px; border-bottom: 2px solid var(--neon); z-index: 1000; }
+        nav a { color: white; text-decoration: none; font-weight: bold; text-transform: uppercase; font-size: 0.9rem; }
+        nav a:hover { color: var(--neon); }
 
-    <nav>
-        <a href="index.html">Inicio</a>
-        <a href="privacidad.html">Privacidad</a>
-    </nav>
+        .hero { height: 60vh; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80'); background-size: cover; background-position: center; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .hero h1 { font-size: 4rem; margin: 0; color: var(--neon); text-shadow: 0 0 20px var(--neon); }
 
-    <div class="hero">
-        <h1>PC MASTER GUIDE</h1>
-        <p>Tu enciclopedia de hardware y computación</p>
-    </div>
+        .container { max-width: 1000px; margin: auto; padding: 40px 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        
+        /* Calculadora de FPS */
+        .tool-card { background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid var(--neon); box-shadow: 0 0 15px rgba(0,212,255,0.1); }
+        select, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: none; background: #252545; color: white; font-weight: bold; }
+        button { background: var(--neon); color: var(--dark); cursor: pointer; transition: 0.3s; }
+        button:hover { background: white; transform: scale(1.02); }
+        .result { margin-top: 20px; padding: 15px; background: rgba(0, 212, 255, 0.1); border-radius: 10px; display: none; }
 
-    <div class="content">
-        <div class="card">
-            <h2>Guía de Procesadores</h2>
-            <p>Aprende a diferenciar entre Intel y AMD. El procesador es el núcleo de potencia de tu equipo gaming o de trabajo.</p>
-        </div>
-
-        <div class="card">
-            <h2>Mantenimiento de PC</h2>
-            <p>Mantener tu PC limpia evita el sobrecalentamiento y alarga la vida de tus componentes. Usa aire comprimido cada 6 meses.</p>
-        </div>
-
-        <div class="card">
-            <h2>Sobre Nosotros</h2>
-            <p>Somos un portal dedicado a la enseñanza de tecnología para principiantes que buscan armar su primera computadora.</p>
-        </div>
-    </div>
-
-    <footer>
-        <p>&copy; 2026 PC Master Guide</p>
-        <a href="privacidad.html" style="color: #555;">Política de Privacidad</a>
-    </footer>
-
-</body>
-</html>
+        /* IA Chat */
+        .chat-box { background: #111; border-radius: 15px; padding: 20px; height: 300px; overflow-y: auto; border: 1px solid var(--accent); margin-bottom: 10px; }
+        .ai-msg { color: var(--accent); margin-bottom: 10px; font-weight: bold; }
+        .user-msg { color:
