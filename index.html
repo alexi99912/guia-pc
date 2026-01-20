@@ -3,28 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PC Master Guide - Tu Guía de Hardware</title>
-    <meta name="description" content="Aprende todo sobre hardware de PC, procesadores y mantenimiento preventivo.">
+    <title>PC Master Guide</title>
     
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-TU_ID_DE_CLIENTE" crossorigin="anonymous"></script>
 
     <style>
-        :root { --primary: #00d4ff; --bg: #0f0c29; --card: #1a1a2e; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; line-height: 1.6; }
-        
-        /* Navegación */
-        nav { background: rgba(26, 26, 46, 0.95); padding: 20px; position: sticky; top: 0; display: flex; justify-content: space-around; border-bottom: 2px solid var(--primary); z-index: 1000; }
-        nav a { color: white; text-decoration: none; font-weight: bold; transition: 0.3s; }
-        nav a:hover { color: var(--primary); }
+        body { 
+            background-color: #0f0c29; 
+            color: white; 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 0;
+        }
+        nav { 
+            background: #1a1a2e; 
+            padding: 20px; 
+            text-align: center; 
+            border-bottom: 2px solid #00d4ff;
+        }
+        nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
+        .hero { 
+            padding: 60px 20px; 
+            text-align: center; 
+            background: linear-gradient(to bottom, #1a1a2e, #0f0c29);
+        }
+        .content { max-width: 800px; margin: auto; padding: 20px; }
+        .card { 
+            background: #1a1a2e; 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            border-radius: 10px; 
+            border: 1px solid #00d4ff;
+        }
+        h1, h2 { color: #00d4ff; }
+        footer { text-align: center; padding: 40px; font-size: 0.8em; color: #888; }
+    </style>
+</head>
+<body>
 
-        /* Hero Section */
-        header { text-align: center; padding: 100px 20px; background: linear-gradient(rgba(15,12,41,0.7), rgba(15,12,41,0.7)), url('https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=1350&q=80'); background-size: cover; }
-        h1 { font-size: 3.5rem; color: var(--primary); text-shadow: 0 0 20px rgba(0,212,255,0.5); }
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="privacidad.html">Privacidad</a>
+    </nav>
 
-        /* Secciones de Contenido */
-        .container { max-width: 1000px; margin: auto; padding: 40px 20px; }
-        .section-card { background: var(--card); padding: 30px; border-radius: 15px; margin-bottom: 40px; border-left: 5px solid var(--primary); }
-        h2 { color: var(--primary); }
+    <div class="hero">
+        <h1>PC MASTER GUIDE</h1>
+        <p>Tu enciclopedia de hardware y computación</p>
+    </div>
 
-        /* Footer y Enlaces Legales */
-        footer { background: #07051a; padding: 40px 20px;
+    <div class="content">
+        <div class="card">
+            <h2>Guía de Procesadores</h2>
+            <p>Aprende a diferenciar entre Intel y AMD. El procesador es el núcleo de potencia de tu equipo gaming o de trabajo.</p>
+        </div>
+
+        <div class="card">
+            <h2>Mantenimiento de PC</h2>
+            <p>Mantener tu PC limpia evita el sobrecalentamiento y alarga la vida de tus componentes. Usa aire comprimido cada 6 meses.</p>
+        </div>
+
+        <div class="card">
+            <h2>Sobre Nosotros</h2>
+            <p>Somos un portal dedicado a la enseñanza de tecnología para principiantes que buscan armar su primera computadora.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 PC Master Guide</p>
+        <a href="privacidad.html" style="color: #555;">Política de Privacidad</a>
+    </footer>
+
+</body>
+</html>
