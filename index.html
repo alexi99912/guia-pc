@@ -1,57 +1,517 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PC Master AI - Hardware & FPS</title>
-    <style>
-        :root { --neon: #00d4ff; --pink: #ff007a; --bg: #0a0a12; --card: #161625; }
-        body { background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
-        
-        header { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1000&q=80'); height: 300px; background-size: cover; display: flex; align-items: center; justify-content: center; flex-direction: column; border-bottom: 3px solid var(--neon); }
-        
-        .container { max-width: 900px; margin: auto; padding: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        
-        .card { background: var(--card); border: 1px solid var(--neon); padding: 20px; border-radius: 15px; margin-bottom: 20px; }
-        .card-ia { border-color: var(--pink); }
-        
-        select, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: none; background: #252545; color: white; cursor: pointer; }
-        button { background: var(--neon); color: black; font-weight: bold; }
-        .btn-ia { background: var(--pink); }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PC Master AI — Hardware & Tuning</title>
+  <meta name="description" content="PC Master AI — Guías y herramientas para optimizar tu hardware gamer. Calculadora de FPS y asistencia técnica simulada por IA." />
+  <!-- Espacio para el Script de AdSense (inserte su script aquí) -->
+  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
 
-        .chat-display { background: #000; height: 150px; padding: 10px; border-radius: 10px; overflow-y: auto; margin-bottom: 10px; font-size: 0.9em; border: 1px solid #333; }
-        .res-fps { background: rgba(0, 212, 255, 0.1); padding: 10px; border-radius: 10px; display: none; margin-top: 10px; }
-        
-        img { width: 100%; border-radius: 10px; margin-top: 10px; }
-        footer { text-align: center; padding: 40px; color: #555; font-size: 0.8em; }
-    </style>
+  <style>
+    :root{
+      --bg: #0a0a12;
+      --accent-cyan: #00d4ff;
+      --accent-pink: #ff007a;
+      --muted: #9aa3b2;
+      --card: #0f1116;
+      --glass: rgba(255,255,255,0.03);
+      --radius: 12px;
+      --maxw: 1200px;
+    }
+
+    /* Basic reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,var(--bg), #05050a 120%);
+      color:#e6eef6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      padding:20px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:var(--maxw);
+    }
+
+    header.site-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 16px;
+      margin-bottom:20px;
+      flex-wrap:wrap;
+    }
+
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .logo{
+      width:52px;height:52px;border-radius:10px;
+      background:linear-gradient(135deg,var(--accent-cyan),var(--accent-pink));
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 6px 24px rgba(0,0,0,0.6);
+      font-weight:800;color:#071018;
+    }
+    nav.main-nav a{
+      color:var(--muted);text-decoration:none;margin-left:14px;font-weight:600;
+    }
+    nav.main-nav a:hover{color:var(--accent-cyan)}
+
+    /* Secondary nav (user provided) */
+    nav.secondary-nav a{
+      color:var(--muted);text-decoration:none;margin-left:12px;font-weight:600;
+    }
+    nav.secondary-nav a:hover{color:var(--accent-pink)}
+
+    .hero{
+      background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.02));
+      border-radius:var(--radius);
+      padding:22px;
+      display:flex;
+      gap:20px;
+      align-items:center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      margin-bottom:18px;
+      border:1px solid rgba(0,212,255,0.06);
+    }
+
+    .hero .intro{
+      flex:1;
+    }
+    .hero h1{
+      font-size:1.6rem;
+      color:linear-gradient(90deg,var(--accent-cyan),var(--accent-pink));
+      margin-bottom:6px;
+      letter-spacing: -0.5px;
+    }
+    .hero p{color:var(--muted)}
+
+    .hero .hero-img{
+      width:260px;height:140px;border-radius:10px;overflow:hidden;flex-shrink:0;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:18px;
+      align-items:start;
+    }
+
+    /* Cards */
+    .card{
+      background:var(--card);
+      border-radius:12px;
+      padding:16px;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .section-title{
+      display:flex;align-items:center;gap:10px;margin-bottom:12px;
+    }
+    .accent-pill{
+      width:10px;height:10px;border-radius:6px;background:linear-gradient(180deg,var(--accent-cyan),var(--accent-pink));
+      box-shadow:0 4px 18px rgba(0,212,255,0.08);
+    }
+
+    /* Calculator form */
+    .form-row{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+    select,input,button,textarea{
+      background:var(--glass);
+      border:1px solid rgba(255,255,255,0.04);
+      color:#eaf6ff;padding:10px;border-radius:8px;font-weight:600;
+    }
+    button.neon{
+      background:linear-gradient(90deg,var(--accent-cyan),var(--accent-pink));
+      color:#041019;border:none;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:800;
+      box-shadow:0 6px 28px rgba(0,212,255,0.08), 0 0 18px rgba(255,0,122,0.04) inset;
+    }
+    .result{
+      margin-top:12px;padding:12px;border-radius:8px;background:rgba(255,255,255,0.02);color:#cfefff;
+      border:1px solid rgba(0,212,255,0.04);
+    }
+
+    /* Chat simulator */
+    .chat-list{max-height:260px;overflow:auto;padding:8px;display:flex;flex-direction:column;gap:8px}
+    .message{padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.02)}
+    .message.user{align-self:flex-end;background:linear-gradient(180deg, rgba(0,212,255,0.06), rgba(255,0,122,0.02));color:#031018;font-weight:700}
+
+    /* Articles */
+    article p{margin-bottom:12px;color:#cbd9e6}
+    .meta{color:var(--muted);font-size:0.9rem;margin-bottom:8px}
+
+    footer.site-footer{
+      margin-top:20px;padding:18px;border-radius:10px;background:transparent;border-top:1px solid rgba(255,255,255,0.03);
+      display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);
+    }
+    footer a{color:var(--muted);text-decoration:none}
+    footer a:hover{color:var(--accent-pink)}
+
+    /* Responsive */
+    @media (max-width:980px){
+      .grid{grid-template-columns:1fr}
+      .hero{flex-direction:column;align-items:flex-start}
+      .hero .hero-img{width:100%;height:160px}
+      nav.main-nav{display:none}
+      nav.secondary-nav{display:flex;width:100%;margin-top:8px;order:3}
+    }
+  </style>
 </head>
 <body>
-
-<header>
-    <h1 style="color: var(--neon); text-shadow: 0 0 10px var(--neon);">PC MASTER AI</h1>
-    <p>Simulador de Rendimiento y Asistencia de Hardware</p>
-</header>
-
-<div class="container">
-    <div class="grid">
-        <div class="card">
-            <h2>🎮 Calculadora de FPS</h2>
-            <label>Selecciona tu GPU:</label>
-            <select id="gpu">
-                <option value="40">GTX 1650 (Gama Entrada)</option>
-                <option value="90">RTX 3060 (Gama Media)</option>
-                <option value="160">RTX 4070 (Gama Alta)</option>
-            </select>
-            <button onclick="calcular()">CALCULAR FPS</button>
-            <div id="resultado" class="res-fps">
-                <p>Fortnite: <span id="f1" style="color:var(--neon)">-</span> FPS</p>
-                <p>Warzone: <span id="f2" style="color:var(--neon)">-</span> FPS</p>
-            </div>
+  <div class="wrap" role="main">
+    <header class="site-header">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">AI</div>
+        <div>
+          <div style="font-weight:800;font-size:1.05rem;">PC Master AI</div>
+          <div style="font-size:0.85rem;color:var(--muted)">Tuning · Guías · Herramientas</div>
         </div>
+      </div>
 
-        <div class="card card-ia">
-            <h2>🤖 Gamer AI Chat</h2>
-            <div id="chat" class="chat-display">
-                <p style="color:
+      <!-- Existing main nav -->
+      <nav class="main-nav" aria-label="Navegación principal">
+        <a href="#calculadora">Calculadora FPS</a>
+        <a href="#chat">Gamer IA Chat</a>
+        <a href="#articulos">Artículos</a>
+        <a href="#privacidad">Privacidad</a>
+      </nav>
+
+      <!-- User-provided nav: added as secondary navigation if not present -->
+      <nav class="secondary-nav" aria-label="Secciones rápidas">
+        <a href="#inicio">Inicio</a>
+        <a href="#procesadores">Procesadores</a>
+        <a href="#mantenimiento">Mantenimiento</a>
+        <a href="#nosotros">Sobre Nosotros</a>
+      </nav>
+    </header>
+
+    <section id="inicio" class="hero" aria-label="Inicio">
+      <div class="intro">
+        <h1 style="color:var(--accent-cyan);">PC Master AI</h1>
+        <p>Herramientas y guías para llevar tu PC gamer al siguiente nivel. Simula FPS, consulta recomendaciones técnicas y sigue las tendencias 2026.</p>
+        <div style="margin-top:10px;">
+          <a href="#calculadora" class="neon" style="text-decoration:none;">Abrir Calculadora</a>
+        </div>
+      </div>
+      <div class="hero-img">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80" alt="Setup gamer" style="width:100%;height:100%;object-fit:cover;display:block">
+      </div>
+    </section>
+
+    <div class="grid">
+      <!-- Left column -->
+      <main>
+        <section id="calculadora" class="card" aria-labelledby="calc-title" style="margin-bottom:18px;">
+          <div class="section-title">
+            <span class="accent-pill" aria-hidden="true"></span>
+            <h2 id="calc-title" style="font-size:1.05rem">Calculadora de FPS</h2>
+          </div>
+          <p class="meta">Selecciona tu CPU y GPU, el juego y la calidad para estimar FPS aproximados.</p>
+
+          <div>
+            <div class="form-row">
+              <label for="cpu" style="min-width:110px;align-self:center">CPU</label>
+              <select id="cpu" aria-label="Seleccionar CPU">
+                <option value="rx5600">AMD Ryzen 5 5600X</option>
+                <option value="i5600">Intel i5-12600K</option>
+                <option value="ryz7900">AMD Ryzen 9 7900X</option>
+                <option value="i9900">Intel i9-13900K</option>
+                <option value="ryz3600">AMD Ryzen 5 3600</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label for="gpu" style="min-width:110px;align-self:center">GPU</label>
+              <select id="gpu" aria-label="Seleccionar GPU">
+                <option value="gtx1660">NVIDIA GTX 1660</option>
+                <option value="rtx3060">NVIDIA RTX 3060</option>
+                <option value="rtx4070">NVIDIA RTX 4070</option>
+                <option value="rx6800">AMD RX 6800</option>
+                <option value="rtx4090">NVIDIA RTX 4090</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label for="game" style="min-width:110px;align-self:center">Juego</label>
+              <select id="game" aria-label="Seleccionar juego">
+                <option value="fortnite">Fortnite</option>
+                <option value="warzone">Warzone</option>
+              </select>
+
+              <label for="preset" style="min-width:90px;align-self:center">Calidad</label>
+              <select id="preset" aria-label="Seleccionar preset">
+                <option value="low">Bajo</option>
+                <option value="medium" selected>Medio</option>
+                <option value="high">Alto</option>
+                <option value="ultra">Ultra</option>
+              </select>
+
+              <button id="calcBtn" class="neon" style="min-width:120px">Calcular FPS</button>
+            </div>
+
+            <div id="fpsResult" class="result" aria-live="polite">
+              Elige la configuración y pulsa "Calcular FPS".
+            </div>
+            <small style="color:var(--muted);display:block;margin-top:8px;">
+              Nota: estimaciones basadas en modelos empíricos; resultados reales dependen de resolución, drivers y termal throttling.
+            </small>
+          </div>
+        </section>
+
+        <section id="articulos" class="card" aria-labelledby="art-title">
+          <div class="section-title">
+            <span class="accent-pill"></span>
+            <h2 id="art-title" style="font-size:1.05rem">Artículos destacados</h2>
+          </div>
+
+          <article aria-labelledby="opt-title" style="margin-bottom:14px">
+            <h3 id="opt-title" style="color:var(--accent-cyan)">Optimización de Hardware</h3>
+            <p class="meta">Consejos prácticos para exprimir rendimiento y estabilidad.</p>
+            <p>
+              La optimización de hardware no es solo elegir los componentes más caros, sino equilibrarlos correctamente: CPU, GPU, RAM, y almacenamiento deben complementarse. En sistemas gaming es crucial priorizar la relación CPU-GPU para evitar cuellos de botella —por ejemplo, una GPU de alto rendimiento en una placa con CPU de gama baja limitará los FPS en títulos CPU-dependientes.
+            </p>
+            <p>
+              Configurar perfiles de energía, actualizar drivers GPU desde fuentes oficiales y mantener temperaturas bajas con una refrigeración adecuada incrementa la vida útil y el rendimiento sostenido. Ajustes en BIOS como activar XMP/EXPO para la RAM o configurar curvas de ventiladores y perfiles PBO/MBM en AMD/Intel, aportan aumentos medibles. Además, usar un SSD NVMe para reducir tiempos de carga y optimizar streaming de texturas en juegos modernos evita stuttering. Por último, monitorizar telemetrías (temps, voltajes, utilización) con herramientas seguras ayuda a detectar throttling antes de que afecte la experiencia.
+            </p>
+          </article>
+
+          <article aria-labelledby="trend-title">
+            <h3 id="trend-title" style="color:var(--accent-pink)">Tendencias 2026</h3>
+            <p class="meta">Qué esperar en hardware y experiencias de juego.</p>
+            <p>
+              En 2026 la tendencia continúa hacia la convergencia entre eficiencia y potencia: nodos de fabricación más finos, GPUs con mayor rendimiento por vatio y CPUs con múltiples P-cores y E-cores diseñados para cargas heterogéneas. El ray tracing hardware y la aceleración por IA se vuelven estándar en capas de renderizado, lo que exige GPUs con unidades dedicadas para tareas de inferencia en tiempo real.
+            </p>
+            <p>
+              La interoperabilidad del ecosistema (APIs de baja latencia, drivers más inteligentes) y soluciones de software para upscaling impulsadas por IA permiten experiencias en resoluciones superiores sin necesidad de hardware extremo. Asimismo, la importancia de fuentes de poder modulares y certificadas sigue en aumento: la eficiencia (80 Plus Gold/Platinum) y la capacidad de entrega estable son críticas para proteger componentes sensibles. Por último, el diseño térmico y la gestión de ruido son áreas donde los fabricantes innovarán para mantener alto rendimiento en formatos compactos y silenciosos.
+            </p>
+          </article>
+
+        </section>
+
+      </main>
+
+      <!-- Right column -->
+      <aside>
+        <section id="chat" class="card" aria-labelledby="chat-title" style="margin-bottom:18px;">
+          <div class="section-title">
+            <span class="accent-pill"></span>
+            <h2 id="chat-title" style="font-size:1.05rem">Gamer IA Chat (simulado)</h2>
+          </div>
+          <p class="meta">Selecciona una categoría y pregunta para obtener una respuesta técnica instantánea.</p>
+
+          <div style="margin-bottom:8px;">
+            <label for="topic" style="display:block;margin-bottom:6px">Categoría</label>
+            <select id="topic" aria-label="Seleccionar categoría">
+              <option value="ram">RAM</option>
+              <option value="cpu">Procesadores</option>
+              <option value="psu">Fuentes de Poder</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom:8px;">
+            <label for="faq" style="display:block;margin-bottom:6px">Preguntas frecuentes</label>
+            <select id="faq" aria-label="Seleccionar pregunta">
+              <option value="freq1">¿Cómo elegir latencia de RAM para gaming?</option>
+              <option value="freq2">¿Overclock seguro para CPU?</option>
+              <option value="freq3">¿Qué potencia de PSU necesito?</option>
+              <option value="freq4">¿Importa la velocidad de lectura del SSD?</option>
+            </select>
+          </div>
+
+          <div style="display:flex;gap:8px;margin-bottom:8px">
+            <button id="askBtn" class="neon">Consultar</button>
+            <button id="sampleBtn" style="background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);padding:10px;border-radius:8px">Ejemplo</button>
+          </div>
+
+          <div class="chat-list" id="chatList" aria-live="polite">
+            <div class="message" style="font-size:0.9rem;color:var(--muted)">Bienvenido. Selecciona una pregunta para obtener una respuesta técnica y útil.</div>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="promo-title">
+          <div class="section-title">
+            <span class="accent-pill"></span>
+            <h3 id="promo-title" style="font-size:1rem">Galería profesional</h3>
+          </div>
+          <div style="display:grid;gap:8px">
+            <img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=800&q=80" alt="PC internals" style="width:100%;height:120px;object-fit:cover;border-radius:8px">
+            <img src="https://images.unsplash.com/photo-1587202372775-6c9b4a0b8b11?auto=format&fit=crop&w=800&q=80" alt="RGB setup" style="width:100%;height:120px;object-fit:cover;border-radius:8px">
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <!-- New sections referenced by the user-provided nav -->
+    <section id="procesadores" class="card" style="margin-top:16px;">
+      <div class="section-title">
+        <span class="accent-pill"></span>
+        <h2 style="font-size:1.05rem">Procesadores</h2>
+      </div>
+      <p class="meta">Guías y comparativas de CPUs para gaming y productividad.</p>
+      <p style="color:var(--muted)">
+        En esta sección encontrarás análisis sobre núcleos, hilos, IPC y cómo impactan en juegos. También cubrimos recomendaciones por rango de precio y plataformas compatibles, además de consejos sobre refrigeración y overclock seguro.
+      </p>
+    </section>
+
+    <section id="mantenimiento" class="card" style="margin-top:16px;">
+      <div class="section-title">
+        <span class="accent-pill"></span>
+        <h2 style="font-size:1.05rem">Mantenimiento</h2>
+      </div>
+      <p class="meta">Checklist de mantenimiento para alargar la vida útil de tu PC.</p>
+      <p style="color:var(--muted)">
+        Aquí explicamos rutinas de limpieza, comprobaciones de software (drivers, firmware), monitorización térmica y gestión de backups. Mantener componentes limpios y software actualizado reduce fallos y mejora estabilidad.
+      </p>
+    </section>
+
+    <section id="nosotros" class="card" style="margin-top:16px;">
+      <div class="section-title">
+        <span class="accent-pill"></span>
+        <h2 style="font-size:1.05rem">Sobre Nosotros</h2>
+      </div>
+      <p class="meta">Quiénes somos y nuestra misión.</p>
+      <p style="color:var(--muted)">
+        PC Master AI es un proyecto educativo dedicado a compartir conocimiento técnico sobre hardware y optimización. Nuestro objetivo es ofrecer herramientas prácticas, guías claras y recomendaciones basadas en pruebas para que cualquier persona mejore su experiencia de juego y uso cotidiano.
+      </p>
+    </section>
+
+    <section id="privacidad" style="margin-top:16px;" class="card" aria-labelledby="priv-title">
+      <div class="section-title">
+        <span class="accent-pill"></span>
+        <h2 id="priv-title" style="font-size:1.05rem">Privacidad</h2>
+      </div>
+      <p style="color:var(--muted)">
+        Esta es una demo educativa. No recolectamos datos personales sensibles en esta versión. Si integra anuncios (AdSense), revise su política de privacidad y el modo de consentimiento correspondiente.
+      </p>
+    </section>
+
+    <footer class="site-footer">
+      <div>© <strong>PC Master AI</strong> 2026</div>
+      <div>
+        <a href="#privacidad">Privacidad</a> · <a href="#articulos">Artículos</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // ===== FPS Calculator =====
+    (function(){
+      const cpuMult = {
+        rx5600: 1.00,
+        i5600: 1.08,
+        ryz7900: 1.22,
+        i9900: 1.30,
+        ryz3600: 0.92
+      };
+      const gpuMult = {
+        gtx1660: 0.55,
+        rtx3060: 0.85,
+        rtx4070: 1.05,
+        rx6800: 1.00,
+        rtx4090: 1.65
+      };
+      const gameBase = {
+        fortnite: 120,
+        warzone: 95
+      };
+      const presetMult = {
+        low: 1.35,
+        medium: 1.0,
+        high: 0.75,
+        ultra: 0.55
+      };
+
+      const calcBtn = document.getElementById('calcBtn');
+      const fpsResult = document.getElementById('fpsResult');
+
+      calcBtn.addEventListener('click', function(){
+        const cpu = document.getElementById('cpu').value;
+        const gpu = document.getElementById('gpu').value;
+        const game = document.getElementById('game').value;
+        const preset = document.getElementById('preset').value;
+
+        // Basic safety checks
+        if(!cpu || !gpu || !game){ fpsResult.textContent = 'Selecciona CPU, GPU y Juego.'; return; }
+
+        // Compute
+        const base = gameBase[game] || 80;
+        const est = Math.round(base * cpuMult[cpu] * gpuMult[gpu] * presetMult[preset]);
+
+        // Provide breakdown and estimated FPS for 1080p and 1440p
+        const est1080 = est;
+        const est1440 = Math.round(est * 0.75);
+
+        fpsResult.innerHTML = '<strong>Estimación:</strong> ~' + est1080 + ' FPS (1080p) / ~' + est1440 + ' FPS (1440p).<br>' +
+                              '<small style="color:var(--muted)">Desglose: base ' + base + ' · CPU×' + cpuMult[cpu] + ' · GPU×' + gpuMult[gpu] + ' · preset×' + presetMult[preset] + '</small>';
+      });
+    })();
+
+    // ===== Chat Simulator =====
+    (function(){
+      const faqMap = {
+        "freq1":{
+          q: "¿Cómo elegir latencia de RAM para gaming?",
+          a: "Para gaming, una RAM con latencias más bajas (CL16 o menos en DDR4; CL34 o menos en DDR5 en frecuencias equivalentes) aporta menores tiempos de acceso. Prioriza frecuencia y latencia equilibradas: por ejemplo, DDR4-3600 CL16 suele superar kits de mayor frecuencia con latencias muy altas. Activa XMP/EXPO en BIOS y verifica la estabilidad con memtest si vas a forzar perfiles."
+        },
+        "freq2":{
+          q: "¿Overclock seguro para CPU?",
+          a: "Overclocking puede mejorar rendimiento en juegos dependientes de CPU. Hazlo de forma incremental: aumenta multiplicador/voltaje ligeramente y realiza pruebas de estrés cortas (Cinebench, Prime95 AVX con límites). Controla temperaturas y potencia; si la temperatura supera ~90°C, reduce el OC. Usa perfiles guardados en BIOS y asegúrate de buena refrigeración."
+        },
+        "freq3":{
+          q: "¿Qué potencia de PSU necesito?",
+          a: "Calcula el TDP sumado y deja margen del 25-30% para picos y eficiencia. Para GPU high-end + CPU high-end, 750-1000W (80 Plus Gold/Platinum) es recomendable. Prioriza marcas con buena regulación y certificación, y conecta cables correctos para evitar caída de voltaje en picos."
+        },
+        "freq4":{
+          q: "¿Importa la velocidad de lectura del SSD?",
+          a: "Sí. En juegos modernos, un NVMe con altas IOPS y baja latencia reduce tiempos de carga y stutter al cargar texturas en tiempo real. Prioriza NVMe PCIe 3.0+/4.0 con buenas puntuaciones sostenidas en lectura/escritura."
+        }
+      };
+
+      const askBtn = document.getElementById('askBtn');
+      const sampleBtn = document.getElementById('sampleBtn');
+      const chatList = document.getElementById('chatList');
+
+      askBtn.addEventListener('click', function(){
+        const faqKey = document.getElementById('faq').value;
+        const topic = document.getElementById('topic').value;
+        const entry = faqMap[faqKey];
+        if(!entry) return;
+
+        appendMessage('user', entry.q);
+        // Simulate processing delay
+        setTimeout(function(){
+          appendMessage('bot', entry.a);
+        }, 700);
+      });
+
+      sampleBtn.addEventListener('click', function(){
+        // Generic example using current topic
+        const topic = document.getElementById('topic').value;
+        let sampleQ = '';
+        if(topic === 'ram') sampleQ = '¿Cuál es la diferencia entre DDR4 y DDR5 para gaming?';
+        if(topic === 'cpu') sampleQ = '¿Qué ventajas tiene el multithreading en juegos?';
+        if(topic === 'psu') sampleQ = '¿Cómo verificar si mi PSU está fallando?';
+        appendMessage('user', sampleQ);
+        setTimeout(function(){
+          appendMessage('bot', 'Respuesta ejemplo: En gaming, DDR5 ofrece mayor ancho de banda pero la mejora real depende del título y la plataforma. Hasta 2026, el paso a DDR5 es beneficioso en títulos que aprovechan mayor ancho de banda, pero DDR4 bien configurada sigue siendo competente en muchas builds.');
+        }, 700);
+      });
+
+      function appendMessage(who, text){
+        const el = document.createElement('div');
+        el.className = 'message ' + (who === 'user' ? 'user' : '');
+        el.textContent = text;
+        chatList.appendChild(el);
+        chatList.scrollTop = chatList.scrollHeight;
+      }
+    })();
+  </script>
+</body>
+</html>
