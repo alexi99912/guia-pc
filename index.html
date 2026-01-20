@@ -2,39 +2,56 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>PC Master AI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Master AI - Hardware & FPS</title>
     <style>
-        /* Estilos básicos para que no falle */
-        body { background-color: #0a0a12; color: white; font-family: sans-serif; margin: 0; padding: 20px; text-align: center; }
-        .bloque { background: #161625; border: 2px solid #00d4ff; padding: 20px; margin: 20px auto; max-width: 600px; border-radius: 10px; }
-        h1 { color: #00d4ff; }
-        button { background: #00d4ff; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; }
+        :root { --neon: #00d4ff; --pink: #ff007a; --bg: #0a0a12; --card: #161625; }
+        body { background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
+        
+        header { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1000&q=80'); height: 300px; background-size: cover; display: flex; align-items: center; justify-content: center; flex-direction: column; border-bottom: 3px solid var(--neon); }
+        
+        .container { max-width: 900px; margin: auto; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        
+        .card { background: var(--card); border: 1px solid var(--neon); padding: 20px; border-radius: 15px; margin-bottom: 20px; }
+        .card-ia { border-color: var(--pink); }
+        
+        select, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: none; background: #252545; color: white; cursor: pointer; }
+        button { background: var(--neon); color: black; font-weight: bold; }
+        .btn-ia { background: var(--pink); }
+
+        .chat-display { background: #000; height: 150px; padding: 10px; border-radius: 10px; overflow-y: auto; margin-bottom: 10px; font-size: 0.9em; border: 1px solid #333; }
+        .res-fps { background: rgba(0, 212, 255, 0.1); padding: 10px; border-radius: 10px; display: none; margin-top: 10px; }
+        
+        img { width: 100%; border-radius: 10px; margin-top: 10px; }
+        footer { text-align: center; padding: 40px; color: #555; font-size: 0.8em; }
     </style>
 </head>
 <body>
 
-    <h1>PC MASTER GUIDE AI</h1>
-    <p>Si puedes leer esto, la web ya no está bloqueada.</p>
+<header>
+    <h1 style="color: var(--neon); text-shadow: 0 0 10px var(--neon);">PC MASTER AI</h1>
+    <p>Simulador de Rendimiento y Asistencia de Hardware</p>
+</header>
 
-    <div class="bloque">
-        <h2>Simulador de FPS</h2>
-        <p>Selecciona tu tarjeta gráfica:</p>
-        <select id="gpu">
-            <option value="60">RTX 3060</option>
-            <option value="120">RTX 4070</option>
-        </select>
-        <button onclick="alert('Tu rendimiento estimado es alto')">Calcular</button>
-    </div>
+<div class="container">
+    <div class="grid">
+        <div class="card">
+            <h2>🎮 Calculadora de FPS</h2>
+            <label>Selecciona tu GPU:</label>
+            <select id="gpu">
+                <option value="40">GTX 1650 (Gama Entrada)</option>
+                <option value="90">RTX 3060 (Gama Media)</option>
+                <option value="160">RTX 4070 (Gama Alta)</option>
+            </select>
+            <button onclick="calcular()">CALCULAR FPS</button>
+            <div id="resultado" class="res-fps">
+                <p>Fortnite: <span id="f1" style="color:var(--neon)">-</span> FPS</p>
+                <p>Warzone: <span id="f2" style="color:var(--neon)">-</span> FPS</p>
+            </div>
+        </div>
 
-    <div class="bloque">
-        <h2>Gamer IA</h2>
-        <p>Pregunta: ¿Cuánta RAM necesito?</p>
-        <p style="color: #ff007a;">Respuesta IA: 16GB es el estándar para 2026.</p>
-    </div>
-
-    <footer style="margin-top: 50px; font-size: 0.8em;">
-        <a href="privacidad.html" style="color: #555;">Privacidad</a>
-    </footer>
-
-</body>
-</html>
+        <div class="card card-ia">
+            <h2>🤖 Gamer AI Chat</h2>
+            <div id="chat" class="chat-display">
+                <p style="color:
